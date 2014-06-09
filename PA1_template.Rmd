@@ -1,0 +1,165 @@
+#Personal Activity Monitoring Devices Data Analysis
+
+First, we will read the data from the Activity Monitoring Data CSV: 
+```{r firstchunk, echo=TRUE}
+data <- read.csv("activity.csv", na.strings="NA")
+```
+
+We will then remove the NAs from the dataset prior to the analysis: 
+
+```{r secondchunk, echo=TRUE}
+datanoNA <- data[!is.na(data$steps),]
+```
+
+##Number of Steps Taken Each Day
+
+First, we need to sum the amount of steps taken each day and create a new data table with the results:
+
+```{r thirdchunk, echo=TRUE}
+aggdata <- aggregate(steps~date,datanoNA,sum)
+```
+
+A histogram is created showing the number of steps taken each day: 
+```{r fourthchunk, echo = TRUE}
+hist(aggdata$steps,xlab="Steps Taken Per Day",main="Total Number of Steps Taken Each Day")
+```
+
+###Mean Number of Steps 
+
+The mean for the total number of steps per day is:
+```{r fifthchunk, echo= TRUE}
+mean1 <- mean(aggdata$steps)
+mean1
+```
+
+###Median Number of Steps
+
+The median for the total number of steps per day is:
+```{r sixthchunk, echo= TRUE}
+median1 <- median(aggdata$steps)
+median1
+```
+
+##Average Number of Steps At Each 5-Minute Interval
+
+Now, we will create a time series plot of the 5-minute interval and the average number of steps taken, averaged across all days.  First, we will create a new data table with the average number of steps taken for each interval: 
+
+```{r seventhchunk, echo=TRUE}
+aggdata2 <- aggregate(steps~interval,datanoNA,mean)
+```
+
+The following is the plot for this step.  The x-axis labels mean the following: 500 = hour 5, minute 0; 1005 = hour 10, minute 5, etc: 
+
+```{r eighthchunk, echo=TRUE}
+plot.ts(aggdata2$interval,aggdata2$steps,type="l",xlab="5-Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps for Each 5-Minute Interval")
+```
+
+###Interval Where Maximum Number of Steps Was Taken
+
+The 5 minute variable that contains the maximum number of steps is:
+```{r ninthchunk, echo=TRUE}
+with(aggdata2, interval[steps==max(steps)])
+```
+
+This corresponds to 8:35am.  
+
+##Missing Values Analysis
+
+Now, we will work with missing values.  The total number of missing values in the original dataset is:
+
+```{r tenthchunk, echo=TRUE}
+na <- data[!complete.cases(data),]
+nrow(na)
+```
+
+Since missing values may introduce bias into our analyses, we will now insert values in place of the NAs in the original dataset.  To do this, I will use the mean of each interval from the aggdata2 datatable:
+
+```{r eleventhchunk, echo=TRUE}
+data.na <- data$interval[is.na(data$steps)]
+value <- sapply(data.na, function(steps) which (aggdata2$interval == steps))
+data$steps[is.na(data$steps)] <- aggdata2$steps[value]
+data
+```
+
+###Number of Steps Taken Each Day From New Full Dataset
+
+Create a new histogram of the total number of steps taken each day:
+
+First, we need to again sum the amount of steps taken each day and create a new data table with the results:
+
+```{r twelfthchunk, echo=TRUE}
+fullaggdata <- aggregate(steps~date,data,sum)
+```
+
+A histogram is created showing the number of steps taken each day with the new full dataset:
+
+```{r thirteenthchunk, echo = TRUE}
+hist(fullaggdata$steps,xlab="Steps Taken Per Day",main="Total Number of Steps Taken Each Day")
+```
+
+###Mean of Total Number of Steps
+
+The mean for the total number of steps per day from the new full dataset is:
+```{r fourteenthchunk, echo= TRUE}
+mean2 <- mean(fullaggdata$steps)
+mean2
+```
+
+###Median of Total Number of Steps
+
+The median for the total number of steps per day from the new full dataset is:
+```{r fifteenthchunk, echo= TRUE}
+median2 <- median(fullaggdata$steps)
+median2
+```
+
+##Analysis of Dataset Including Values in NAs versus the Dataset from Above Excluding NA Values
+
+We will now analyze the differences in the means and medians from the old and new datasets to see if adding values to the NAs actually made a difference.  To do this, we will take the difference between the old and new means and medians:
+```{r sixteenthchunk, echo=TRUE}
+meandif <- mean2-mean1
+#Mean difference
+meandif
+
+mediandif <- median2-median1
+##Median difference
+mediandif
+```
+
+From these differences, it actually looks like adding in averages for the NA values did not have much of an impact.
+
+##Weekday vs. Weekend Activity
+
+Our final analysis will involve looking at activity patterns on weekdays versus weekends from the dataset with the filled-in missing values.
+
+First, we need to create a new variable that has two levels ("weekday" or "weekend"), corresponding to whether a given date is a weeday or weekend day.
+
+```{r seventeenthchunk, echo=TRUE}
+data$type <- weekdays(data$date, abbreviate=FALSE)
+data$type[data$type=="Monday"] <- "weekday"
+data$type[data$type=="Tuesday"] <- "weekday"
+data$type[data$type=="Wednesday"] <- "weekday"
+data$type[data$type=="Thursday"] <- "weekday"
+data$type[data$type=="Friday"] <- "weekday"
+data$type[data$type=="Saturday"] <- "weekend"
+data$type[data$type=="Sunday"] <- "weekend"
+```
+
+Finally, we will create a panel plot with a time series plot of the 5-minute interval and average number of steps taken, averaged across all weekday days and weekend days.  
+
+```{r eighteenthchunk, echo=TRUE}
+aggdata3 <- aggregate(steps~interval + type,data,mean)
+```
+
+The following is the plot for this step.  The x-axis labels mean the following: 500 = hour 5, minute 0; 1005 = hour 10, minute 5, etc: 
+
+```{r nineteenthchunk, echo=TRUE,fig.height=4}
+##dataset with only weekday data
+aggdata4 <- aggdata3[aggdata3$type=="weekday",]
+##dataset with only weekend data
+aggdata5 <- aggdata3[aggdata3$type=="weekend",]
+##plot
+par(mfrow=c(1,2),mar=c(5,4.5,4.5,4.5))
+plot.ts(aggdata4$interval,aggdata4$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekdays")
+plot.ts(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends")
+```
