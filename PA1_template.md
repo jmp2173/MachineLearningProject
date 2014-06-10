@@ -73,7 +73,7 @@ The following is the plot showing the average number of steps taken, averaged ac
 
 
 ```r
-plot.ts(aggdata2$interval,aggdata2$steps,type="l",xlab="5-Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps for Each 5-Minute Interval")
+plot.ts(aggdata2$interval,aggdata2$steps,type="l",xlab="5-Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps for Each 5-Minute Interval",col="dark green")
 ```
 
 ![plot of chunk eighthchunk](figure/eighthchunk.png) 
@@ -227,9 +227,9 @@ aggdata5 <- aggdata3[aggdata3$type=="weekend",]
 
 ```r
 ##plot
-par(mfrow=c(2,1),mar=c(2,2,2,2))
-plot.ts(aggdata4$interval,aggdata4$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekdays")
-plot.ts(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends")
+par(mfrow=c(1,2),cex.lab=0.75,cex.main=1,cex.axis=0.75)
+plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps For Each 5-Minute Interval on Weekdays",xlab="5 Minute Interval",ylab="Average Number of Steps",col = "blue")
+plot(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends", col="red")
 ```
 
 ![plot of chunk twentieth chunk](figure/twentieth chunk.png) 
