@@ -167,8 +167,8 @@ aggdata5 <- aggdata3[aggdata3$type=="weekend",]
 
 ```{r twentieth chunk, echo=TRUE,fig.height=10, fig.width=10}
 par(mfrow=c(1,2))
-plot1 <- plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps For Each 5-Minute Interval on Weekdays",xlab="5 Minute Interval",ylab="Average Number of Steps",col="blue")
-plot2 <- plot(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends", col="red")
+plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps For Each 5-Minute Interval on Weekdays",xlab="5 Minute Interval",ylab="Average Number of Steps",col="blue")
+plot(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends", col="red")
 ```
 
 From this plot, we can see that the individual was most active in the morning leading up to 9am (900 on the x-axis) on weekdays and was more idle during the daytime.  However, on weekends, the individual was active in the morning as well as the afternoon and even into the evening up to about 8pm (2000 on the x-axis).
