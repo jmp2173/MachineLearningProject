@@ -163,7 +163,9 @@ median2
 
 ##Analysis of Dataset Including Values in NAs versus the Dataset from Above Excluding NA Values
 
-We will now analyze the differences in the means and medians from the old and new datasets to see if adding values to the NAs actually made a difference.  To do this, we will take the difference between the old and new means and medians:
+We will now analyze the differences in the means and medians from the old and new datasets to see if adding values to the NAs actually made a difference.  To do this, we will take the difference between the old and new means and medians.
+
+The first answer shows the difference in means; the second reveals the difference in medians:
 
 ```r
 meandif <- mean2-mean1
@@ -231,6 +233,7 @@ plot.ts(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab=
 ```
 
 ![plot of chunk twentieth chunk](figure/twentieth chunk.png) 
+
 From this plot, we can see that the individual was most active in the morning leading up to 9am (900 on the x-axis) on weekdays and was more idle during the daytime.  However, on weekends, the individual was active in the morning as well as the afternoon and even into the evening up to about 8pm (2000 on the x-axis).
 
 The knitr packages was installed to process this markdown file into a md and html file.
