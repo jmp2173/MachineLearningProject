@@ -1,12 +1,15 @@
-<<<<<<< HEAD
 #Personal Activity Monitoring Devices Data Analysis
 
-First, we will read the data from the Activity Monitoring Data CSV: 
+In this report, we will be analyzing an individual's personal activity monitoring device.  The device totaled the number of steps taken by the individual at 5 minute intervals throughout the day.  Our dataset contains data from October 2012 through November 2012.  We will first calculate the mean and median number of the number of steps ignoring missing values in the dataset (which are designated as NA).  Next, we will take the average number of steps taken in each 5 minute interval across all days.  Next, we will input values for the missing values in the dataset, recalculate the mean and median, and compare this to the other calculations we made ignoring the NAs.  Finally, we will use the complete dataset to analyze activity on weekdays and weekends.
+
+First, we will read the data from the Activity Monitoring Data CSV.  The file was downloaded on June 8th at 12:08pm EST.  
 ```{r firstchunk, echo=TRUE}
 data <- read.csv("activity.csv", na.strings="NA")
+## convert the date variable into a Date class instead of factor
+data$date <- as.Date(data$date, format="%Y-%m-%d")
 ```
 
-We will then remove the NAs from the dataset prior to the analysis: 
+We will then remove the NAs from the dataset for the first part of our analysis: 
 
 ```{r secondchunk, echo=TRUE}
 datanoNA <- data[!is.na(data$steps),]
@@ -14,7 +17,7 @@ datanoNA <- data[!is.na(data$steps),]
 
 ##Number of Steps Taken Each Day
 
-First, we need to sum the amount of steps taken each day and create a new data table with the results:
+Now, we can begin analysis.  We will start by looking at the average number of steps taken each day.  To do this, first, we need to sum the amount of steps taken each day and create a new data table with the results:
 
 ```{r thirdchunk, echo=TRUE}
 aggdata <- aggregate(steps~date,datanoNA,sum)
@@ -49,7 +52,7 @@ Now, we will create a time series plot of the 5-minute interval and the average 
 aggdata2 <- aggregate(steps~interval,datanoNA,mean)
 ```
 
-The following is the plot for this step.  The x-axis labels mean the following: 500 = hour 5, minute 0; 1005 = hour 10, minute 5, etc: 
+The following is the plot showing the average number of steps taken, averaged across all days.  The x-axis labels can be interpreted as the following: 500 = hour 5, minute 0; 1005 = hour 10, minute 5, etc: 
 
 ```{r eighthchunk, echo=TRUE}
 plot.ts(aggdata2$interval,aggdata2$steps,type="l",xlab="5-Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps for Each 5-Minute Interval")
@@ -79,14 +82,13 @@ Since missing values may introduce bias into our analyses, we will now insert va
 data.na <- data$interval[is.na(data$steps)]
 value <- sapply(data.na, function(steps) which (aggdata2$interval == steps))
 data$steps[is.na(data$steps)] <- aggdata2$steps[value]
-data
 ```
 
 ###Number of Steps Taken Each Day From New Full Dataset
 
-Create a new histogram of the total number of steps taken each day:
+We will now create a new histogram of the total number of steps taken each day.
 
-First, we need to again sum the amount of steps taken each day and create a new data table with the results:
+Like with the first dataset, first, we need to again sum the amount of steps taken each day and create a new data table with the results:
 
 ```{r twelfthchunk, echo=TRUE}
 fullaggdata <- aggregate(steps~date,data,sum)
@@ -146,43 +148,25 @@ data$type[data$type=="Saturday"] <- "weekend"
 data$type[data$type=="Sunday"] <- "weekend"
 ```
 
-Finally, we will create a panel plot with a time series plot of the 5-minute interval and average number of steps taken, averaged across all weekday days and weekend days.  
+Finally, we will create a panel plot with a time series plot of the 5-minute interval and average number of steps taken, averaged across all weekday days and weekend days.  The dataset needed to create the plot is as follows.  It averages the number of steps taken along each interval.   
 
 ```{r eighteenthchunk, echo=TRUE}
 aggdata3 <- aggregate(steps~interval + type,data,mean)
 ```
 
-The following is the plot for this step.  The x-axis labels mean the following: 500 = hour 5, minute 0; 1005 = hour 10, minute 5, etc: 
+We will create a panel plot consisting of two plots.  One plot shows average number of steps taken at each 5 minute interval on weekdays and the other does the same for weekends.  First, we will subset our dataset twice creating two new datasets, one with weekday data and one with weekend data.  Then, we will construct the plots using these datasets.  On the plots, the x-axis labels mean the following: 500 = hour 5, minute 0; 1005 = hour 10, minute 5, etc: 
 
-```{r nineteenthchunk, echo=TRUE,fig.height=4}
+```{r nineteenthchunk, echo=TRUE}
 ##dataset with only weekday data
 aggdata4 <- aggdata3[aggdata3$type=="weekday",]
 ##dataset with only weekend data
 aggdata5 <- aggdata3[aggdata3$type=="weekend",]
+```
+
+```{r twentieth chunk, echo=TRUE, fig.height=4, fig.width=4}
 ##plot
-par(mfrow=c(1,2),mar=c(5,4.5,4.5,4.5))
+par(mfrow=c(2,1),mar=c(2,2,2,2))
 plot.ts(aggdata4$interval,aggdata4$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekdays")
 plot.ts(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends")
 ```
-=======
-# Reproducible Research: Peer Assessment 1
-
-
-## Loading and preprocessing the data
-
-
-
-## What is mean total number of steps taken per day?
-
-
-
-## What is the average daily activity pattern?
-
-
-
-## Imputing missing values
-
-
-
-## Are there differences in activity patterns between weekdays and weekends?
->>>>>>> dc20c7c4e92aea6af318a611e2669d5b9c6cbfaf
+From this plot, we can see that the individual was most active in the morning leading up to 9am (900 on the x-axis) on weekdays and was more idle during the daytime.  However, on weekends, the individual was active in the morning as well as the afternoon and even into the evening up to about 8pm (2000 on the x-axis).
