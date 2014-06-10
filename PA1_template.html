@@ -377,8 +377,7 @@ aggdata4 &lt;- aggdata3[aggdata3$type==&quot;weekday&quot;,]
 aggdata5 &lt;- aggdata3[aggdata3$type==&quot;weekend&quot;,]
 </code></pre>
 
-<pre><code class="r">##plot
-par(mfrow=c(1,2))
+<pre><code class="r">par(mfrow=c(1,2))
 plot1 &lt;- plot(aggdata4$interval,aggdata4$steps,type=&quot;l&quot;,main=&quot;Average Number of Steps For Each 5-Minute Interval on Weekdays&quot;,xlab=&quot;5 Minute Interval&quot;,ylab=&quot;Average Number of Steps&quot;,col=&quot;blue&quot;)
 plot2 &lt;- plot(aggdata5$interval,aggdata5$steps,type=&quot;l&quot;,xlab=&quot;5 Minute Interval&quot;,ylab=&quot;Average Number of Steps&quot;,main=&quot;Average Number of Steps For Each 5-Minute Interval on Weekends&quot;, col=&quot;red&quot;)
 </code></pre>
