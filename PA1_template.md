@@ -231,7 +231,7 @@ plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps For
 plot(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends", col="red")
 ```
 
-![plot of chunk twentieth chunk](figure/twentieth chunk.png) 
+![plot of chunk graph chunk](figure/graph chunk.png) 
 
 From this plot, we can see that the individual was most active in the morning leading up to 9am (900 on the x-axis) on weekdays and was more idle during the daytime.  However, on weekends, the individual was active in the morning as well as the afternoon and even into the evening up to about 8pm (2000 on the x-axis).
 
