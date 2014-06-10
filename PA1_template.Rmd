@@ -165,7 +165,7 @@ aggdata4 <- aggdata3[aggdata3$type=="weekday",]
 aggdata5 <- aggdata3[aggdata3$type=="weekend",]
 ```
 
-```{r twentieth chunk, echo=TRUE}
+```{r twentieth chunk, echo=TRUE,fig.height=10, fig.width=10}
 ##plot
 par(mfrow=c(1,2),cex.lab=0.75,cex.main=1,cex.axis=0.75)
 plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps For Each 5-Minute Interval on Weekdays",xlab="5 Minute Interval",ylab="Average Number of Steps",col = "blue")
