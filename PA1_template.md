@@ -227,8 +227,8 @@ aggdata5 <- aggdata3[aggdata3$type=="weekend",]
 
 ```r
 par(mfrow=c(1,2))
-plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps For Each 5-Minute Interval on Weekdays",xlab="5 Minute Interval",ylab="Average Number of Steps",col="blue")
-plot(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps For Each 5-Minute Interval on Weekends", col="red")
+plot(aggdata4$interval,aggdata4$steps,type="l",main="Average Number of Steps on Weekdays",xlab="5 Minute Interval",ylab="Average Number of Steps",col="blue")
+plot(aggdata5$interval,aggdata5$steps,type="l",xlab="5 Minute Interval",ylab="Average Number of Steps",main="Average Number of Steps on Weekends", col="red")
 ```
 
 ![plot of chunk graph chunk](figure/graph chunk.png) 
