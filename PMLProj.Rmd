@@ -5,10 +5,11 @@ We want to predict the manner in which 6 participants performed barbell lifts, u
 First, let's download the training and testing data:
 
 ```{r training, echo=TRUE}
-training <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
+training <- read.csv("http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 ```
+
 ```{r testing, echo=TRUE}
-testing <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
+testing <- read.csv("http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
 ```
 
 Let's look at the dimensions:
