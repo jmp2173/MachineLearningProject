@@ -70,6 +70,8 @@ Here is a table comparing the predictions to the original observations in the va
 table(p1,testing6$classe)
 ```
 
+From testing on a new dataset, we can estimate the out of sample error.  We will use the accuracy standard deviation as our measure.  For this model, it was 0.003.  This number is low which makes it seem that our predictions are not too far off the actual.    
+
 To continue cross validation, I built another model with the training set and predicted on the validation set.  I decided to add preprocessing by principal component analysis this time to the random forest model.   
 
 ```{r premodel, echo=TRUE}
@@ -84,7 +86,7 @@ p2 <- predict(modelFitnew2,testing6)
 table(p2,testing6$classe)
 ```
 
-The accuracy in the second model was smaller (95.4% vs. 98.7%) when just looking at the variable modelFitnew and modelFitnew2 and viewing the number of observaions off the diagonals in the two tables.  So, I decided the first model was the one to use for predicting on my final test set.
+The accuracy in the second model was smaller (95.4% vs. 98.7%) when just looking at the variable modelFitnew and modelFitnew2 and viewing the number of observaions off the diagonals in the two tables.  The accuracy standard deviation was also just a little bit higher (0.004).  So, I decided the first model was the one to use for predicting on my final test set.
 
 ```{r predict, echo=TRUE}
 predict(modelFitnew,testing12)
