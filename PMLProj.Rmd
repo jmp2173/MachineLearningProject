@@ -5,11 +5,11 @@ We want to predict the manner in which 6 participants performed barbell lifts, u
 First, let's download the training and testing data:
 
 ```{r training, echo=TRUE}
-training <- read.csv("http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
+training <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 ```
 
 ```{r testing, echo=TRUE}
-testing <- read.csv("http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
+testing <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
 ```
 
 Let's look at the dimensions:
@@ -61,13 +61,13 @@ modelFit
 After running the model, I evaluated the data on the validation set.
 
 ```{r predict1, echo=TRUE}
-p1 <- predict(modelFitnew,testing6)
+p1 <- predict(modelFit,testing6)
 ```
 
 Here is a table comparing the predictions to the original observations in the validation set.
 
 ```{r table1, echo=TRUE}
-table(p1,testing6$classe)
+t1 <- table(p1,testing6$classe)
 ```
 
 From testing on a new dataset, we can estimate the out of sample error.  We will use the accuracy standard deviation as our measure.  For this model, it was 0.003.  This number is low which makes it seem that our predictions are not too far off the actual.    
@@ -83,13 +83,13 @@ I again tested on the validaton set and produced a table comparing the findings.
 
 ```{r table2, echo=TRUE}
 p2 <- predict(modelFitnew2,testing6)
-table(p2,testing6$classe)
+t2 <- table(p2,testing6$classe)
 ```
 
 The accuracy in the second model was smaller (95.4% vs. 98.7%) when just looking at the variable modelFitnew and modelFitnew2 and viewing the number of observaions off the diagonals in the two tables.  The accuracy standard deviation was also just a little bit higher (0.004).  So, I decided the first model was the one to use for predicting on my final test set.
 
 ```{r predict, echo=TRUE}
-predict(modelFitnew,testing12)
+predict(modelFit,testing12)
 ```
 
 This shows how the 20 test cases performed in each exercise.  
